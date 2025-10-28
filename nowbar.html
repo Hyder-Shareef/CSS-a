@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title> Navbar </title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    body {
+        background-color: gray;
+    }
+
+    .navbar {
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 30px;
+      background-color: darkslategrey;
+      box-shadow:black;
+    }
+
+    .nav-items {
+      display: flex;
+      gap: 20px;
+    }
+
+    .nav-items h3 {
+      font-size: 15px;
+      font-weight: normal;
+      color: white;
+      cursor: pointer;
+      transition: color 0.3s ease;
+    }
+
+    .nav-items h3:hover {
+      color: #ff6b4a;
+    }
+
+    .contact {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .contact span {
+      font-size: 14px;
+      border-bottom: 1px dotted white;
+
+    }
+
+    .donate{
+      background-color: #ff6b4a;
+      border: none;
+      color: white;
+      padding: 8px 16px;
+      font-size: 14px;
+      cursor: pointer;
+      transition: ease-in-out 0.3s;
+      background-color: crimson;
+      border-radius: 4px;
+
+    }
+
+    .donate:hover {
+      background-color: #ff8569;
+    }
+  </style>
+</head>
+<body>
+  <header class="navbar">
+    <div>
+        <h2>CHARITEE</h2>
+    </div>
+
+    <div class="nav-items">
+      <h3>Home</h3>
+      <h3>Who We Are?</h3>
+      <h3>Programs</h3>
+      <h3>About</h3>
+      <h3>Blog</h3>
+      <h3>Contact Us</h3>
+    </div>
+
+    <div class="contact">
+      <span>Call Us: <b>1234567890</b></span> 
+      <button class="donate"> Make A Donation</button>
+    </div>
+  </header>
+</body>
+</html>

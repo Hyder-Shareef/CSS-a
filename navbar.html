@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Charitee</title>
+<style>
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+  }
+
+  header {
+    background-color: #1e3fa1;
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 30px;
+  }
+
+  .logo {
+    font-size: 22px;
+    font-weight: bold;
+    color: #ffefe0;
+  }
+
+  nav ul {
+    list-style: none;
+    display: flex;
+    gap: 20px;
+  }
+
+  nav ul li {
+    display: inline;
+  }
+
+  nav ul li h4 {
+    color: white;
+    cursor: pointer;
+    font-weight: normal;
+    transition: color 0.3s;
+  }
+
+  nav ul li h4:hover {
+    color: #ffd700;
+  }
+
+  /* Right Side (Call + Button) */
+  .right {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+  }
+
+  .call {
+    font-size: 14px;
+  }
+
+  .btn {
+    background-color: #c82333;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+
+  .btn:hover {
+    background-color: #a31d28;
+  }
+</style>
+</head>
+<body>
+
+  <header>
+    <div class="logo">Charitee</div>
+
+    <nav>
+      <ul>
+        <li><h4>Home</h4></li>
+        <li><h4>About us</h4></li>
+        <li><h4>Who we are</h4></li>
+        <li><h4>Programs</h4></li>
+        <li><h4>Contact us</h4></li>
+      </ul>
+    </nav>
+
+    <div class="right">
+      <div class="call">Call us: +918837713632</div>
+      <button class="btn">donate</button>
+    </div>
+  </header>
+
+</body>
+</html>

@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head> 
+  <script>
+    console.log (hyder);
+    </script> 
+    </head>
+  <meta charset="UTF-8" >
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Flexbox & CSS Selectors Example</title>
+  <style>
+    /* ===== Universal Selector ===== */
+    * {
+      margin: 10px;
+      padding: 10px;
+      font-family: Arial, sans-serif;
+    }
+
+    /* ===== Basic Styling ===== */
+    body {
+      background-color: #f3f4f6;
+      padding: 20px;
+    }
+
+    header {
+      background-color: #333;
+      color: white;
+      text-align: center;
+      padding: 15px;
+      border: 1px #222;
+    }
+
+    /* ===== Class Selector ===== */
+    .container {
+      display: flex;
+      flex-wrap: wrap;
+      align-content: space-around;
+      justify-content: center;
+      gap: 20px;
+      margin-top: 20px;
+    }
+
+    /* ===== Descendant Selector ===== */
+    .card p {
+      color: #555;
+    }
+
+    /* ===== immediate (>) descendent Selector ===== */
+    .card > h2 {
+      color: #222;
+      margin-bottom: 8px;
+    }
+
+    /* =====  Sibling Selector (+) ===== */
+    h2 + p {
+      font-size: 14px;
+      color: #777;
+    }
+
+    /* ===== General Sibling Selector (~) ===== */
+    h2 ~ button {
+      background-color: #4e9af1;
+      border: none;
+      color: white;
+      padding: 8px 12px;
+      border:1px #222;
+    }
+
+        /* Pseudo-class Selector */
+    button:hover {
+      background-color: skyblue;
+      cursor: pointer;
+    }
+
+
+    /* ===== nth-child (Position Selector) ===== */
+    .card:nth-child(1) {
+      background-color: #d4eaf7;
+    }
+
+    .card:nth-child(2) {
+      background-color: #dff7d4;
+    }
+
+    .card:nth-child(3) {
+      background-color: #f7efd4;
+    }
+
+    .card:nth-child(4) {
+      background-color: #f7d4d4;
+    }
+
+    /* ===== Styling ===== */
+    .card {
+      width: 220px;
+      padding: 20px;
+      border: 1px #222;
+      text-align: center;
+    }
+
+  </style>
+<body>
+  <header>
+    <h1>Flexbox + CSS Selectors Example</h1>
+  </header>
+
+ <main class="container">
+    <div class="card">
+      <h2>Card One</h2>
+      <p>This card uses descendant and sibling selectors.</p>
+       <button>Click</button>
+    </div>
+
+    <div class="card">
+      <h2>Card Two</h2>
+      <p>This one shows nth-child styling.</p>
+       <button>Click</button>
+    </div>
+
+    <div class="card">
+      <h2>Card Three</h2>
+      <p>Flexbox wraps items neatly.</p>
+       <button>Click</button>
+    </div>
+
+    <div class="card">
+      <h2>Card Four</h2>
+      <p>Align-content keeps layout organized.</p>
+       <button>Click</button>
+    </div>
+  </main>
+</body>
+</html>
+background
