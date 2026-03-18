@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  min-height: 100vh;
+  padding: 40px 20px;
+}
+
+.container {
+  max-width: 1400px;
+  margin: 0 auto;
+  background: white;
+  border-radius: 20px;
+  padding: 40px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+}
+
+h1 { font-size: 42px; color: #667eea; margin-bottom: 10px; text-align: center; }
+h2 { font-size: 20px; color: #666; margin-bottom: 30px; text-align: center; font-weight: 400; }
+
+.filter-section {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 30px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.filter-group { display: flex; align-items: center; gap: 10px; }
+
+.filter-group label {
+  font-size: 14px;
+  font-weight: 600;
+  color: #333;
+  white-space: nowrap;
+}
+
+.filter-group select {
+  padding: 11px 16px;
+  font-size: 14px;
+  border: 2px solid #e0e0e0;
+  border-radius: 10px;
+  background: white;
+  cursor: pointer;
+  outline: none;
+  transition: all 0.3s ease;
+  min-width: 180px;
+}
+
+.filter-group select:hover:not(:disabled) { border-color: #667eea; }
+.filter-group select:focus { border-color: #667eea; box-shadow: 0 0 0 3px rgba(102,126,234,0.1); }
+.filter-group select:disabled { background: #f5f5f5; color: #aaa; cursor: not-allowed; opacity: 0.7; }
+
+.filter-divider { font-size: 20px; color: #ccc; }
+
+/* Detail Card */
+.detail-card {
+  display: none;
+  margin-bottom: 35px;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 8px 30px rgba(102,126,234,0.18);
+  border: 1.5px solid #e8e8ff;
+  animation: fadeIn 0.4s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.detail-header {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  padding: 20px 28px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.detail-header img {
+  width: 80px;
+  height: 52px;
+  object-fit: cover;
+  border-radius: 6px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+}
+
+.detail-header .country-title { color: white; font-size: 26px; font-weight: 700; }
+.detail-header .country-subtitle { color: rgba(255,255,255,0.75); font-size: 14px; margin-top: 3px; }
+
+.detail-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+.detail-label {
+  background: #f7f8ff;
+  padding: 15px 22px;
+  font-size: 13px;
+  font-weight: 700;
+  color: #667eea;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  border-bottom: 1px solid #eeeeff;
+  border-right: 1px solid #eeeeff;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.detail-value {
+  background: white;
+  padding: 15px 22px;
+  font-size: 14px;
+  color: #333;
+  border-bottom: 1px solid #eeeeff;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.badge {
+  padding: 3px 10px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 600;
+  display: inline-block;
+}
+.badge-blue   { background: #eef0ff; color: #667eea; }
+.badge-pink   { background: #fff0f5; color: #f5576c; }
+.badge-orange { background: #fff8f0; color: #e67e22; }
+
+/* Table */
+.results-count { text-align: right; font-size: 13px; color: #888; margin-bottom: 8px; }
+
+.table-section { }
+
+.table-container {
+  overflow-x: auto;
+  border-radius: 15px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+table { width: 100%; border-collapse: collapse; background: white; }
+
+th {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 18px;
+  text-align: left;
+  font-weight: 600;
+  font-size: 15px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+tr { transition: all 0.3s ease; }
+tr:hover { background-color: #f8f9ff; transform: scale(1.01); }
+
+td {
+  padding: 15px 18px;
+  border-bottom: 1px solid #e8e8e8;
+  color: #333;
+  font-size: 14px;
+}
+
+tr:last-child td { border-bottom: none; }
+tbody tr:nth-child(even) { background-color: #fafafa; }
+tbody tr:nth-child(even):hover { background-color: #f8f9ff; }
+
+.continent-badge {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white; padding: 4px 12px; border-radius: 15px;
+  font-size: 12px; font-weight: 600; display: inline-block;
+}
+
+.subregion-badge {
+  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+  color: white; padding: 4px 12px; border-radius: 15px;
+  font-size: 12px; font-weight: 600; display: inline-block;
+}
+
+.loading { text-align: center; padding: 40px; color: #667eea; font-size: 18px; }
+.error-msg { text-align: center; padding: 40px; color: #e74c3c; font-size: 16px; }
+
+@media (max-width: 768px) {
+  .container { padding: 20px; }
+  h1 { font-size: 28px; }
+  .filter-section { flex-direction: column; align-items: flex-start; }
+  .filter-divider { display: none; }
+  .detail-grid { grid-template-columns: 1fr; }
+  .detail-label { border-right: none; }
+}
+</style>
+</head>
+<body>
+<div class="container">
+  <h1>🌍 World Countries Database</h1>
+  <h2>Explore countries from around the globe</h2>
+
+  <div class="filter-section">
+    <div class="filter-group">
+      <label for="continentFilter">🌎 Continent:</label>
+      <select id="continentFilter" onchange="onContinentChange()">
+        <option value="">All Continents</option>
+      </select>
+    </div>
+    <div class="filter-divider">›</div>
+    <div class="filter-group">
+      <label for="subregionFilter">🗺️ Sub Region:</label>
+      <select id="subregionFilter" onchange="onSubregionChange()" disabled>
+        <option value="">Select a Continent first</option>
+      </select>
+    </div>
+    <div class="filter-divider">›</div>
+    <div class="filter-group">
+      <label for="countryFilter">🏳️ Country:</label>
+      <select id="countryFilter" onchange="onCountryChange()" disabled>
+        <option value="">Select a Sub Region first</option>
+      </select>
+    </div>
+  </div>
+
+  <!-- Detail Card (shown only when a specific country is selected) -->
+  <div class="detail-card" id="detailCard">
+    <div class="detail-header">
+      <img id="detailFlag" src="" alt="Flag" />
+      <div>
+        <div class="country-title" id="detailName"></div>
+        <div class="country-subtitle" id="detailSubregion"></div>
+      </div>
+    </div>
+    <div class="detail-grid" id="detailGrid"></div>
+  </div>
+
+  <!-- Table section (hidden when a specific country is selected) -->
+  <div class="table-section" id="tableSection">
+    <div class="results-count" id="resultsCount"></div>
+    <div class="table-container">
+      <table>
+        <thead>
+          <tr>
+            <th>🌎 Continent</th>
+            <th>🗺️ Sub Region</th>
+            <th>🏳️ Country</th>
+            <th>🏛️ Capital</th>
+            <th>💰 Currency</th>
+          </tr>
+        </thead>
+        <tbody id="tableBody">
+          <tr><td colspan="5" class="loading">⏳ Loading countries data...</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<script>
+var allCountries = [];
+var continentSubregionMap = {};
+
+var API_URL = "https://restcountries.com/v3.1/all?fields=name,capital,currencies,region,subregion,borders,flags,timezones,population,languages";
+
+fetch(API_URL)
+  .then(function(r) {
+    if (!r.ok) throw new Error("HTTP " + r.status);
+    return r.json();
+  })
+  .then(function(data) {
+    allCountries = data;
+    buildMaps(data);
+    populateContinentDropdown();
+    displayTable(data);
+  })
+  .catch(function(err) {
+    document.getElementById("tableBody").innerHTML =
+      '<tr><td colspan="5" class="error-msg">❌ Failed to load data: ' + err.message + '</td></tr>';
+  });
+
+function buildMaps(data) {
+  continentSubregionMap = {};
+  data.forEach(function(c) {
+    var region = c.region;
+    var sub    = c.subregion;
+    if (!region) return;
+    if (!continentSubregionMap[region]) continentSubregionMap[region] = {};
+    if (sub) continentSubregionMap[region][sub] = true;
+  });
+}
+
+function populateContinentDropdown() {
+  var sel = document.getElementById("continentFilter");
+  Object.keys(continentSubregionMap).sort().forEach(function(c) {
+    appendOption(sel, c, c);
+  });
+}
+
+function onContinentChange() {
+  var continent = document.getElementById("continentFilter").value;
+  var subSel    = document.getElementById("subregionFilter");
+  var ctrySel   = document.getElementById("countryFilter");
+
+  subSel.innerHTML  = "";
+  subSel.disabled   = true;
+  ctrySel.innerHTML = "<option value=''>Select a Sub Region first</option>";
+  ctrySel.disabled  = true;
+
+  hideDetail();
+  showTable();
+
+  if (!continent) {
+    appendOption(subSel, "", "Select a Continent first");
+    displayTable(allCountries);
+    return;
+  }
+
+  subSel.disabled = false;
+  appendOption(subSel, "", "All Sub Regions");
+  Object.keys(continentSubregionMap[continent]).sort().forEach(function(s) {
+    appendOption(subSel, s, s);
+  });
+
+  displayTable(allCountries.filter(function(c) { return c.region === continent; }));
+}
+
+function onSubregionChange() {
+  var continent = document.getElementById("continentFilter").value;
+  var subregion = document.getElementById("subregionFilter").value;
+  var ctrySel   = document.getElementById("countryFilter");
+
+  ctrySel.innerHTML = "";
+  ctrySel.disabled  = true;
+
+  hideDetail();
+  showTable();
+
+  var filtered = allCountries.filter(function(c) {
+    return (!continent || c.region    === continent) &&
+           (!subregion || c.subregion === subregion);
+  });
+
+  if (!subregion) {
+    appendOption(ctrySel, "", "Select a Sub Region first");
+    displayTable(filtered);
+    return;
+  }
+
+  ctrySel.disabled = false;
+  appendOption(ctrySel, "", "All Countries");
+  filtered.slice().sort(function(a, b) {
+    return a.name.common.localeCompare(b.name.common);
+  }).forEach(function(c) {
+    appendOption(ctrySel, c.name.common, c.name.common);
+  });
+
+  displayTable(filtered);
+}
+
+function onCountryChange() {
+  var continent = document.getElementById("continentFilter").value;
+  var subregion = document.getElementById("subregionFilter").value;
+  var country   = document.getElementById("countryFilter").value;
+
+  if (country) {
+    // A specific country is selected — show detail card, hide table
+    var found = allCountries.find(function(c) { return c.name.common === country; });
+    if (found) {
+      showDetail(found);
+      hideTable();
+    }
+  } else {
+    // "All Countries" selected — hide detail card, show table
+    hideDetail();
+    showTable();
+
+    var filtered = allCountries.filter(function(c) {
+      return (!continent || c.region    === continent) &&
+             (!subregion || c.subregion === subregion);
+    });
+    displayTable(filtered);
+  }
+}
+
+function showDetail(c) {
+  document.getElementById("detailFlag").src = (c.flags && c.flags.png) ? c.flags.png : "";
+  document.getElementById("detailName").textContent = c.name.common;
+  document.getElementById("detailSubregion").textContent =
+    (c.subregion || "") + (c.region ? "  ·  " + c.region : "");
+
+  var rows = [
+    { icon: "🏳️", label: "Country Name",     text: c.name.common },
+    { icon: "🏛️", label: "Capital",           text: c.capital ? c.capital.join(", ") : "N/A" },
+    {
+      icon: "💰", label: "Currency",
+      text: c.currencies
+        ? Object.entries(c.currencies).map(function(e) {
+            return e[1].name + " (" + e[0] + ")";
+          }).join(", ")
+        : "N/A"
+    },
+    { icon: "🗺️", label: "Sub Region",        text: c.subregion || "N/A" },
+    { icon: "👥", label: "Population",         text: c.population ? c.population.toLocaleString() : "N/A" },
+    { icon: "🗣️", label: "Languages",          badges: c.languages ? Object.values(c.languages) : [], badgeClass: "badge-blue" },
+    { icon: "🕐", label: "Timezones",          badges: c.timezones || [], badgeClass: "badge-orange" },
+    { icon: "🔲", label: "Border Countries",   badges: (c.borders && c.borders.length) ? c.borders : [], badgeClass: "badge-pink", emptyText: "No land borders" },
+    { icon: "🚩", label: "Flag",               flag: (c.flags && c.flags.png) ? c.flags.png : null }
+  ];
+
+  var grid = document.getElementById("detailGrid");
+  grid.innerHTML = "";
+
+  rows.forEach(function(row, idx) {
+    var labelDiv = document.createElement("div");
+    labelDiv.className = "detail-label";
+    labelDiv.innerHTML = row.icon + " " + row.label;
+
+    var valueDiv = document.createElement("div");
+    valueDiv.className = "detail-value";
+
+    if (idx === rows.length - 1) {
+      labelDiv.style.borderBottom = "none";
+      valueDiv.style.borderBottom = "none";
+    }
+
+    if (row.flag) {
+      var img = document.createElement("img");
+      img.src = row.flag;
+      img.style.cssText = "height:40px;border-radius:5px;box-shadow:0 1px 6px rgba(0,0,0,0.2);";
+      valueDiv.appendChild(img);
+    } else if (row.badges !== undefined) {
+      if (row.badges.length === 0) {
+        valueDiv.textContent = row.emptyText || "N/A";
+      } else {
+        row.badges.forEach(function(b) {
+          var span = document.createElement("span");
+          span.className = "badge " + row.badgeClass;
+          span.textContent = b;
+          valueDiv.appendChild(span);
+        });
+      }
+    } else {
+      valueDiv.textContent = row.text || "—";
+    }
+
+    grid.appendChild(labelDiv);
+    grid.appendChild(valueDiv);
+  });
+
+  document.getElementById("detailCard").style.display = "block";
+}
+
+function hideDetail() {
+  document.getElementById("detailCard").style.display = "none";
+}
+
+function showTable() {
+  document.getElementById("tableSection").style.display = "block";
+}
+
+function hideTable() {
+  document.getElementById("tableSection").style.display = "none";
+}
+
+function displayTable(data) {
+  document.getElementById("resultsCount").textContent = data.length + " countries found";
+  var tbody = document.getElementById("tableBody");
+  tbody.innerHTML = "";
+
+  data.forEach(function(d) {
+    var row = document.createElement("tr");
+    addCell(row, '<span class="continent-badge">' + (d.region || "N/A") + '</span>', true);
+    addCell(row, d.subregion ? '<span class="subregion-badge">' + d.subregion + '</span>' : "N/A", true);
+    addCell(row, d.name.common || "N/A");
+    addCell(row, d.capital ? d.capital[0] : "N/A");
+    addCell(row, d.currencies ? Object.keys(d.currencies)[0] : "N/A");
+    tbody.appendChild(row);
+  });
+}
+
+function addCell(row, content, isHtml) {
+  var td = document.createElement("td");
+  if (isHtml) td.innerHTML = content;
+  else td.textContent = content;
+  row.appendChild(td);
+}
+
+function appendOption(sel, val, text) {
+  var o = document.createElement("option");
+  o.value = val; o.textContent = text;
+  sel.appendChild(o);
+}
+</script>
+</body>
+</html>
